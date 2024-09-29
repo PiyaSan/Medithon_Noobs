@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SYNCOSE - Sync Your Dose</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">SYNCOSE</div>
+            <div class="tagline">SYNC.YOUR.DOSE</div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Manage Your Insulin Intake</h1>
+            <p>Track your injections, monitor your health, and stay in control.</p>
+        </section>
+
+        <section class="form-section">
+            <h2>Insulin Tracking Form</h2>
+            <form id="insulinForm">
+                <!-- Injection Time Interval -->
+                <div class="form-group">
+                    <label for="timeInterval">Time Between Injections (Hours)</label>
+                    <input type="number" id="timeInterval" name="timeInterval" min="0" max="24" required>
+                </div>
+
+                <!-- Insulin Dosage -->
+                <div class="form-group">
+                    <label for="dosage">Insulin Dosage (Units)</label>
+                    <input type="number" id="dosage" name="dosage" min="0" max="100" required>
+                </div>
+
+                <!-- Blood Glucose Level -->
+                <div class="form-group">
+                    <label for="glucose">Blood Glucose Level (mg/dL)</label>
+                    <input type="number" id="glucose" name="glucose" min="40" max="400" required>
+                </div>
+
+                <!-- Notification Time -->
+                <div class="form-group">
+                    <label for="notificationTime">Reminder Before Next Injection (Minutes)</label>
+                    <input type="number" id="notificationTime" name="notificationTime" min="10" max="720" required>
+                </div>
+
+                <button type="submit">Submit</button>
+            </form>
+
+            <div id="feedback"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 SYNCOSE | Sync Your Dose for Better Diabetes Management</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SYNCOSE Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS -->
+    <link rel="stylesheet" href="dashboard.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap" rel="stylesheet">
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">SYNCOSE Dashboard</div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="dashboard">
+            <h2>Your Insulin Data Overview</h2>
+            <canvas id="insulinChart"></canvas>
+            <canvas id="glucoseChart"></canvas>
+            <div id="warnings"></div>
+            <button onclick="window.location.href='index.html'">Back to Form</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 SYNCOSE | Stay Synced with Your Health</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="dashboard.js"></script>
+</body>
+</html>
+<!-- Add this within the <main> section of dashboard.html -->
+    <section class="predictions">
+        <h3>Predicted Values</h3>
+        <div id="predictions"></div>
+    </section>
