@@ -1,0 +1,82 @@
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+from datetime import timedelta, datetime
+
+# Step 1: Create a simulated time series dataset for one month
+dates = pd.date_range(start='2024-09-01', periods=30, freq='D')
+data_dict = {
+    'date': dates,
+    'time_interval': [5, 6, 8, 10, 4, 12, 9, 5, 7, 11, 13, 3, 2, 15, 14, 6, 8, 10, 4, 12, 9, 5, 7, 11, 13, 3, 2, 15, 14, 6],
+    'dosage': [10, 20, 30, 50, 60, 15, 25, 5, 40, 55, 70, 1, 2, 80, 90, 20, 30, 40, 50, 60, 20, 30, 40, 50, 60, 20, 30, 40, 50, 60],
+    'glucose': [100, 150, 80, 200, 300, 60, 250, 90, 70, 180, 350, 40, 75, 400, 220, 150, 100, 80, 200, 300, 60, 250, 90, 70, 180, 350, 40, 75, 400, 220]
+}
+
+# Create a DataFrame
+data = pd.DataFrame(data_dict)
+
+# Step 2: Prepare the data for regression
+data['days'] = (data['date'] - data['date'].min()).dt.days  # Create a 'days' feature
+
+# Step 3: Train a Linear Regression Model
+features = data[['days']]  # Use the 'days' column as the feature
+model_time_interval = LinearRegression()
+model_dosage = LinearRegression()
+model_glucose = LinearRegression()
+
+# Fit the models
+model_time_interval.fit(features, data['time_interval'])
+model_dosage.fit(features, data['dosage'])
+model_glucose.fit(features, data['glucose'])
+
+# Step 4: Predict for the next week
+future_days = np.array([[i] for i in range(data['days'].max() + 1, data['days'].max() + 8)])  # Predict for the next 7 days
+predicted_time_interval = model_time_interval.predict(future_days)
+predicted_dosage = model_dosage.predict(future_days)
+predicted_glucose = model_glucose.predict(future_days)
+
+# Combine predictions with dates
+predicted_dates = pd.date_range(start=data['date'].max() + timedelta(days=1), periods=7, freq='D')
+predicted_df = pd.DataFrame({
+    'date': predicted_dates,
+    'predicted_time_interval': predicted_time_interval,
+    'predicted_dosage': predicted_dosage,
+    'predicted_glucose': predicted_glucose
+})
+
+# Step 5: Visualize the results
+plt.figure(figsize=(14, 8))
+
+# Time Interval Plot
+plt.subplot(3, 1, 1)
+plt.plot(data['date'], data['time_interval'], label='Actual Time Interval', marker='o')
+plt.plot(predicted_df['date'], predicted_df['predicted_time_interval'], label='Predicted Time Interval', marker='x')
+plt.title('Insulin Injection Time Interval Prediction')
+plt.xlabel('Date')
+plt.ylabel('Time Interval (hours)')
+plt.legend()
+
+# Dosage Plot
+plt.subplot(3, 1, 2)
+plt.plot(data['date'], data['dosage'], label='Actual Dosage', marker='o', color='orange')
+plt.plot(predicted_df['date'], predicted_df['predicted_dosage'], label='Predicted Dosage', marker='x', color='red')
+plt.title('Insulin Dosage Prediction')
+plt.xlabel('Date')
+plt.ylabel('Dosage (units)')
+plt.legend()
+
+# Blood Glucose Plot
+plt.subplot(3, 1, 3)
+plt.plot(data['date'], data['glucose'], label='Actual Blood Glucose', marker='o', color='green')
+plt.plot(predicted_df['date'], predicted_df['predicted_glucose'], label='Predicted Blood Glucose', marker='x', color='purple')
+plt.title('Blood Glucose Prediction')
+plt.xlabel('Date')
+plt.ylabel('Glucose (mg/dL)')
+plt.legend()
+
+plt.tight_layout()
+plt.show()
+
+# Print predicted values for the next week
+print(predicted_df)
